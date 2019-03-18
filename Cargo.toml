@@ -1,0 +1,8 @@
+[package]
+name = "sorensen"
+version = "0.1.0"
+authors = ["<anlaakso@protonmail.com>"]
+edition = "2018"
+
+[dependencies]
+hashbrown = "0.1.8"
