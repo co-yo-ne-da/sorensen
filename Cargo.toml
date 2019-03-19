@@ -10,3 +10,8 @@ assert_float_eq = "1.1.3"
 
 [dev-dependencies]
 rand = "0.6.5"
+criterion = "0.2"
+
+[[bench]]
+name = "benches"
+harness = false
