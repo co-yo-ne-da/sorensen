@@ -4,10 +4,6 @@ extern crate rand;
 
 use criterion::{
     Criterion,
-    Bencher,
-    ParameterizedBenchmark,
-//    PlotConfiguration,
-//    AxisScale
 };
 
 
