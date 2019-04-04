@@ -1,6 +1,6 @@
 [package]
 name = "sorensen"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["<anlaakso@protonmail.com>"]
 edition = "2018"
 description = "Sørensen–Dice coefficient implementation for Rust."
