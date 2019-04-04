@@ -32,23 +32,23 @@ fn intersection<T: Sized + Hash + Eq>(wx: Windows<T>, wy: Windows<T>) -> u64 {
 }
 
 #[inline(always)]
-fn short_length<T: Sized + Hash + Eq>(first: Windows<T>, second: Windows<T>) -> f64 {
-    let nx: usize = first.len();
-    let ny: usize = second.len();
-    let len = intersection(first, second);
+fn short_length<T: Sized + Hash + Eq>(wx: Windows<T>, wy: Windows<T>) -> f64 {
+    let nx: usize = wx.len();
+    let ny: usize = wy.len();
+    let len = intersection(wx, wy);
 
     len as f64 / (nx as f64 + ny as f64)
 }
 
 #[inline(always)]
-fn long_length<T: Sized + Hash + Eq>(first: Chunks<T>, second: &mut Chunks<T>) -> f64 {
+fn long_length<T: Sized + Hash + Eq>(cx: Chunks<T>, cy: &mut Chunks<T>) -> f64 {
     let mut len = 0;
-    for chunk in first {
-        let first_bigrams: Windows<T> = chunk.windows(2);
-        match second.next() {
+    for chunk in cx {
+        let wx: Windows<T> = chunk.windows(2);
+        match cy.next() {
             Some(ch) => {
-                let bigrams = ch.windows(2);
-                len += intersection(first_bigrams, bigrams);
+                let wy = ch.windows(2);
+                len += intersection(wx, wy);
             },
             None => {}
         };
@@ -75,14 +75,14 @@ fn long_length<T: Sized + Hash + Eq>(first: Chunks<T>, second: &mut Chunks<T>) -
     ```
 **/
 #[inline(always)]
-pub fn distance<T: Sized + Hash + Eq>(first: &[T], second: &[T]) -> f64 {
-    let x_len = *&first.len() - 1;
-    let y_len = *&second.len() - 1;
+pub fn distance<T: Sized + Hash + Eq>(x: &[T], y: &[T]) -> f64 {
+    let x_len = *&x.len() - 1;
+    let y_len = *&y.len() - 1;
 
     if x_len + y_len < 10000 {
-        short_length(first.windows(2), second.windows(2))
+        short_length(x.windows(2), y.windows(2))
     } else {
-        let len = long_length(first.chunks(500), &mut first.chunks(500));
+        let len = long_length(x.chunks(500), &mut y.chunks(500));
         len / (x_len as f64 + y_len as f64)
     }
 }
