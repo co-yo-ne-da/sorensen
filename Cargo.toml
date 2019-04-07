@@ -1,10 +1,12 @@
 [package]
 name = "sorensen"
-version = "0.1.1"
-authors = ["<anlaakso@protonmail.com>"]
+version = "0.1.2"
+authors = ["Ponyloop <anlaakso@protonmail.com>"]
 edition = "2018"
 description = "Sørensen–Dice coefficient implementation for Rust."
+source = "https://github.com/ponyloop/sorensen"
 license = "GPL-3.0-or-later"
+license-file = "LICENSE"
 
 [dependencies]
 hashbrown = "0.1.8"
