@@ -12,9 +12,9 @@ use std::slice::{ Windows, Chunks };
 
 #[inline(always)]
 fn intersection<T: Sized + Hash + Eq>(wx: Windows<T>, wy: Windows<T>) -> u64 {
-    let len = *&wx.len() as usize;
+    let wx_len = *&wx.len() as usize;
     let hash: HashSet<&[T]> = wx.fold(
-        HashSet::with_capacity(len),
+        HashSet::with_capacity(wx_len),
         |mut acc, val| {
             acc.insert(val);
             acc
@@ -32,7 +32,7 @@ fn intersection<T: Sized + Hash + Eq>(wx: Windows<T>, wy: Windows<T>) -> u64 {
 }
 
 #[inline(always)]
-fn short_length<T: Sized + Hash + Eq>(wx: Windows<T>, wy: Windows<T>) -> f64 {
+fn short_sequence_distance<T: Sized + Hash + Eq>(wx: Windows<T>, wy: Windows<T>) -> f64 {
     let nx: usize = wx.len();
     let ny: usize = wy.len();
     let len = intersection(wx, wy);
@@ -41,7 +41,7 @@ fn short_length<T: Sized + Hash + Eq>(wx: Windows<T>, wy: Windows<T>) -> f64 {
 }
 
 #[inline(always)]
-fn long_length<T: Sized + Hash + Eq>(cx: Chunks<T>, cy: &mut Chunks<T>) -> f64 {
+fn long_sequence_distance<T: Sized + Hash + Eq>(cx: Chunks<T>, cy: &mut Chunks<T>) -> f64 {
     let mut len = 0;
     for chunk in cx {
         let wx: Windows<T> = chunk.windows(2);
@@ -80,9 +80,9 @@ pub fn distance<T: Sized + Hash + Eq>(x: &[T], y: &[T]) -> f64 {
     let y_len = *&y.len() - 1;
 
     if x_len + y_len < 10000 {
-        short_length(x.windows(2), y.windows(2))
+        short_sequence_distance(x.windows(2), y.windows(2))
     } else {
-        let len = long_length(x.chunks(500), &mut y.chunks(500));
+        let len = long_sequence_distance(x.chunks(500), &mut y.chunks(500));
         len / (x_len as f64 + y_len as f64)
     }
 }
