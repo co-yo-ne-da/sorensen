@@ -1,7 +1,7 @@
 # Sorensen
 [Sørensen–Dice coefficient](https://en.wikipedia.org/wiki/Sørensen–Dice_coefficient) implementation for Rust.
 
-[![Build Status](https://travis-ci.org/ponyloop/sorensen.svg?branch=master)](https://travis-ci.org/ponyloop/sorensen)
+[![CI](https://github.com/co-yo-ne-da/sorensen/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/co-yo-ne-da/sorensen/actions/workflows/ci.yml)
 
 ##### v0.1.3
 
