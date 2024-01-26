@@ -3,7 +3,7 @@
 
 [![CI](https://github.com/co-yo-ne-da/sorensen/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/co-yo-ne-da/sorensen/actions/workflows/ci.yml)
 
-##### v0.1.3
+##### v0.2.0
 
 ## Usage
 
