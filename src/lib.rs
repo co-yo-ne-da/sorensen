@@ -6,51 +6,6 @@ use hashbrown::HashSet;
 use std::slice::{ Windows, Chunks };
 
 
-#[inline(always)]
-fn intersection<T: Sized + Hash + Eq>(wx: Windows<T>, wy: Windows<T>) -> u64 {
-    let len = *&wx.len() as usize;
-    let hash: HashSet<&[T]> = wx.fold(
-        HashSet::with_capacity(len),
-        |mut acc, val| {
-            acc.insert(val);
-            acc
-        }
-    );
-
-    let mut len: u64 = 0;
-    for w in wy {
-        if hash.contains(w) {
-            len += 2;
-        }
-    }
-
-    len
-}
-
-fn short_length<T: Sized + Hash + Eq>(wx: Windows<T>, wy: Windows<T>) -> f64 {
-    let nx: usize = wx.len();
-    let ny: usize = wy.len();
-    let len = intersection(wx, wy);
-
-    len as f64 / (nx as f64 + ny as f64)
-}
-
-fn long_length<T: Sized + Hash + Eq>(cx: Chunks<T>, cy: &mut Chunks<T>) -> f64 {
-    let mut len = 0;
-    for chunk in cx {
-        let wx: Windows<T> = chunk.windows(2);
-        match cy.next() {
-            Some(ch) => {
-                let wy = ch.windows(2);
-                len += intersection(wx, wy);
-            },
-            None => {}
-        };
-    }
-
-    len as f64
-}
-
 /**
     Calculates Sørensen–Dice coefficient
     https://en.wikipedia.org/wiki/Sørensen–Dice_coefficient
@@ -69,15 +24,25 @@ fn long_length<T: Sized + Hash + Eq>(cx: Chunks<T>, cy: &mut Chunks<T>) -> f64 {
     ```
 **/
 pub fn distance<T: Sized + Hash + Eq>(x: &[T], y: &[T]) -> f64 {
-    let x_len = *&x.len() - 1;
-    let y_len = *&y.len() - 1;
+    let wx = x.windows(2);
+    let wy = y.windows(2);
 
-    if x_len + y_len < 10000 {
-        short_length(x.windows(2), y.windows(2))
-    } else {
-        let len = long_length(x.chunks(500), &mut y.chunks(500));
-        len / (x_len as f64 + y_len as f64)
+    let nx = wx.len();
+    let ny = wy.len();
+
+    let mut hash_set: HashSet<&[T]> = HashSet::with_capacity(nx as usize);
+    for item in wx {
+        hash_set.insert(item);
     }
+
+    let mut len: u64 = 0;
+    for w in wy {
+        if hash_set.contains(w) {
+            len += 2;
+        }
+    }
+
+    len as f64 / (nx as f64 + ny as f64)
 }
 
 
