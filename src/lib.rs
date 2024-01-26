@@ -1,8 +1,4 @@
-#![feature(test)]
-#![feature(uniform_paths)]
-
 #[macro_use] extern crate assert_float_eq;
-extern crate test;
 extern crate hashbrown;
 
 use core::hash::Hash;
@@ -31,7 +27,6 @@ fn intersection<T: Sized + Hash + Eq>(wx: Windows<T>, wy: Windows<T>) -> u64 {
     len
 }
 
-#[inline(always)]
 fn short_length<T: Sized + Hash + Eq>(wx: Windows<T>, wy: Windows<T>) -> f64 {
     let nx: usize = wx.len();
     let ny: usize = wy.len();
@@ -40,7 +35,6 @@ fn short_length<T: Sized + Hash + Eq>(wx: Windows<T>, wy: Windows<T>) -> f64 {
     len as f64 / (nx as f64 + ny as f64)
 }
 
-#[inline(always)]
 fn long_length<T: Sized + Hash + Eq>(cx: Chunks<T>, cy: &mut Chunks<T>) -> f64 {
     let mut len = 0;
     for chunk in cx {
@@ -74,7 +68,6 @@ fn long_length<T: Sized + Hash + Eq>(cx: Chunks<T>, cy: &mut Chunks<T>) -> f64 {
 
     ```
 **/
-#[inline(always)]
 pub fn distance<T: Sized + Hash + Eq>(x: &[T], y: &[T]) -> f64 {
     let x_len = *&x.len() - 1;
     let y_len = *&y.len() - 1;
