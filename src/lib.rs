@@ -3,7 +3,6 @@ extern crate hashbrown;
 
 use core::hash::Hash;
 use hashbrown::HashSet;
-use std::slice::{ Windows, Chunks };
 
 
 /**
